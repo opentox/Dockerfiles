@@ -42,18 +42,14 @@ RUN         git clone https://github.com/opentox/lazar.git && \
             bundle install --path ~/.gem
 
 #RUN         git clone https://github.com/opentox/toxtree.git && \
-#            cd toxtree && \
-#            bundle install --path ~/.gem
 
 #RUN         git clone https://github.com/opentox/kazius-alerts.git && \
-#            cd kazius-alerts && \
-#            bundle install --path ~/.gem
 
 #RUN         git clone https://github.com/opentox/lazar-gui.git && \
 #            cd lazar-gui && \
 #            git checkout "development" && \
 #            bundle install --path ~/.gem
 
-#COPY        start.sh /home/ist/start.sh
-#RUN         sudo chmod +x /home/ist/start.sh
+COPY        start.sh /home/ist/start.sh
+RUN         sudo chmod +x /home/ist/start.sh
 ENTRYPOINT  ["/home/ist/start.sh"]
