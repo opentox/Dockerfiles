@@ -35,21 +35,7 @@ RUN         export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 RUN         gem install bundler
 RUN         bundle config --global silence_root_warning 1
 
-RUN         git clone https://github.com/opentox/lazar.git && \
-            cd lazar && \
-            ruby ext/lazar/extconf.rb && \
-            bundle install --path ~/.gem
-
-RUN         git clone https://github.com/opentox/qsar-report.git && \
-            cd qsar-report && \
-            bundle install --path ~/.gem
-
-RUN         git clone https://github.com/opentox/lazar-public-data.git
-
-RUN         git clone https://github.com/opentox/lazar-gui.git && \
-            cd lazar-gui && \
-            bundle install --path ~/.gem
-
+RUN         gem install lazar-gui
 COPY        start.sh /home/ist/start.sh
 RUN         sudo chmod +x /home/ist/start.sh
 ENTRYPOINT  ["/home/ist/start.sh"]
