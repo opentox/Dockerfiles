@@ -10,7 +10,7 @@ RUN         pacman-db-upgrade && pacman -Syyu --noconfirm && pacman -S --noconfi
             gcc-fortran \
             git \
             gsl \
-            jre7-openjdk-headless \
+            jre10-openjdk-headless \
             mongodb \
             mongodb-tools \
             r \
@@ -26,14 +26,13 @@ RUN         mkdir -p /data/db
 USER        ist
 WORKDIR     /home/ist
 
-RUN         wget https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz -O Rserve
-RUN         sudo R CMD INSTALL Rserve
+RUN         sudo R -e "install.packages('Rserve', repos='http://rforge.net/')"
 
 RUN         echo 'gem: --user-install --no-document' > ~/.gemrc
 ENV         PATH $PATH:/home/ist/.gem/ruby/2.5.0/bin
-RUN         export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+
 RUN         gem install bundler
-RUN         bundle config --global silence_root_warning 1
+#RUN         bundle config --global silence_root_warning 1
 
 RUN         git clone https://github.com/opentox/lazar.git && \
             cd lazar && \
@@ -41,14 +40,15 @@ RUN         git clone https://github.com/opentox/lazar.git && \
             ruby ext/lazar/extconf.rb && \
             bundle install --path ~/.gem
 
-#RUN         git clone https://github.com/opentox/toxtree.git && \
+RUN         git clone https://github.com/opentox/qsar-report.git && \
+            cd qsar-report && \
+            git checkout "development" && \
+            bundle install --path ~/.gem
 
-#RUN         git clone https://github.com/opentox/kazius-alerts.git && \
-
-#RUN         git clone https://github.com/opentox/lazar-gui.git && \
-#            cd lazar-gui && \
-#            git checkout "development" && \
-#            bundle install --path ~/.gem
+RUN         git clone https://github.com/opentox/lazar-gui.git && \
+            cd lazar-gui && \
+            git checkout "development" && \
+            bundle install --path ~/.gem
 
 COPY        start.sh /home/ist/start.sh
 RUN         sudo chmod +x /home/ist/start.sh
