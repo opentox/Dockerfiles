@@ -29,7 +29,7 @@ WORKDIR     /home/ist
 RUN         sudo R -e "install.packages('Rserve', repos='http://rforge.net/')"
 
 RUN         echo 'gem: --user-install --no-document' > ~/.gemrc
-ENV         PATH $PATH:/home/ist/.gem/ruby/2.5.0/bin
+ENV         PATH $PATH:/home/ist/.gem/ruby/2.6.0/bin
 
 RUN         gem install bundler
 #RUN         bundle config --global silence_root_warning 1
